@@ -403,7 +403,7 @@ void do_rename(struct char_data *ch, char *arg, int cmd)
       if(obj->short_description)
         free(obj->short_description);
       obj->short_description=(char *)strdup(tit);
-      p=(char *)rindex(tit,' ');
+      p=(char *)strrchr(tit,' ');
       if(p)
         p++;
       else

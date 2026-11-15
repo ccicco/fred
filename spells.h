@@ -1,3 +1,5 @@
+#ifndef SPELLS_H
+#define SPELLS_H
 /* ************************************************************************
 *  file: spells.h , Implementation of magic spells.       Part of DIKUMUD *
 *  Usage : Spells                                                         *
@@ -207,3 +209,4 @@ struct weapon_spell_list {
   void (*spellfun)(short l, struct char_data *ch,
     struct char_data *ta, struct obj_data *ob);
 };
+#endif /* SPELLS_H */

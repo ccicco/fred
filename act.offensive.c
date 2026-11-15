@@ -25,7 +25,7 @@ extern struct room_data *world;
 
 void raw_kill(struct char_data *ch);
 
-strip(struct char_data *ch)
+void strip(struct char_data *ch)
 {
   int i;
   struct obj_data *o;

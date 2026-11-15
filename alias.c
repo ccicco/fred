@@ -46,14 +46,14 @@ struct alias_data *parse_alias(char *s)
   struct alias_data *p;
   char buf[MAX_STRING_LENGTH];
 
-  t = (char *)index(s,'=');
+  t = (char *)strchr(s,'=');
   if(!t)
     return 0;
   *t = 0;
   t++;
   p=(struct alias_data *)malloc(sizeof(struct alias_data));
   p->in = strdup(s);
-  u = (char *)rindex(t,'\n');
+  u = (char *)strrchr(t,'\n');
   if(u)
     *u = 0;
   p->out = strdup(t);

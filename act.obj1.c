@@ -440,7 +440,7 @@ void do_put(struct char_data *ch, char *argument, int cmd)
   if(*arg1) {
    if(*arg2) {
     if(strcmp("all",arg1)==0){
-     if(p=(char *)index(arg2,'.'))
+     if(p=(char *)strchr(arg2,'.'))
        sprintf(buf,"!%s",p+1);
      else
        sprintf(buf,"!%s",arg2);

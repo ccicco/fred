@@ -32,7 +32,6 @@ void damage(struct char_data *ch, struct char_data *victim,
 void say_spell( struct char_data *ch, int si );
 bool saves_spell(struct char_data *ch, sh_int spell);
 void add_follower(struct char_data *ch, struct char_data *victim);
-char *strdup(char *str);
 
 
 void cast_armor( short level, struct char_data *ch, char *arg, int type,

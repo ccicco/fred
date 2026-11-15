@@ -1,3 +1,5 @@
+#ifndef INTERPRETER_H
+#define INTERPRETER_H
 /* ************************************************************************
 *  file: Interpreter.h , Command interpreter module.      Part of DIKUMUD *
 *  Usage: Procedures interpreting user command                            *
@@ -21,3 +23,4 @@ struct command_info
 	short minimum_level;
 	byte minimum_position;
 };
+#endif /* INTERPRETER_H */

@@ -236,10 +236,10 @@ int bot(struct char_data *ch, int cmd, char *arg)
       break;
     case 'E':
       if(s=ch->player.title){
-        if(p=(char *)index(s,'#')){
+        if(p=(char *)strchr(s,'#')){
           strcpy(buf,s);
           s=buf;
-          p=(char *)index(s,'#');
+          p=(char *)strchr(s,'#');
           *p = '0'+number(0,5);
         }
         command_interpreter(ch,s);

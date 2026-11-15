@@ -1,3 +1,5 @@
+#ifndef UTILS_H
+#define UTILS_H
 /* ************************************************************************
 *  file: utils.h, Utility module.                         Part of DIKUMUD *
 *  Usage: Utility macros                                                  *
@@ -72,9 +74,9 @@
 #define HMHR(ch) ((ch)->player.sex ?           \
   (((ch)->player.sex == 1) ? "him" : "her") : "it")  
 
-#define ANA(obj) (index("aeiouyAEIOUY", *(obj)->name) ? "An" : "A")
+#define ANA(obj) (strchr("aeiouyAEIOUY", *(obj)->name) ? "An" : "A")
 
-#define SANA(obj) (index("aeiouyAEIOUY", *(obj)->name) ? "an" : "a")
+#define SANA(obj) (strchr("aeiouyAEIOUY", *(obj)->name) ? "an" : "a")
 
 #define IS_NPC(ch)  (IS_SET((ch)->specials.act, ACT_ISNPC))
 
@@ -219,3 +221,4 @@
 #define CANSEEHID(X) (IS_AFFECTED(X,AFF_SENSE_LIFE) || \
  ((X->equipment[WEAR_FACE])&&(X->equipment[WEAR_FACE]->obj_flags.value[2] & 8)))
 
+#endif /* UTILS_H */

@@ -1055,7 +1055,7 @@ void do_help(struct char_data *ch, char *argument, int cmd)
   send_to_char(help, ch);
 }
 
-do_wizhelp(struct char_data *ch, char *argument, int cmd)
+void do_wizhelp(struct char_data *ch, char *argument, int cmd)
 {
   char buf[MAX_STRING_LENGTH];
   int no, i;
@@ -1132,7 +1132,7 @@ void do_users(struct char_data *ch, char *argument, int cmd)
   struct descriptor_data *d;
   struct char_data *p;
   int n=0,flag,t;
-  static most=0;
+  static int most=0;
 
   one_argument(argument,line);
   if(!strcmp("-l",line)){
@@ -1555,7 +1555,7 @@ void do_newlock(struct char_data *ch, char *argument, int cmd)
      }
   }
 }
-do_notell(struct char_data *ch, char *argument, int cmd)
+void do_notell(struct char_data *ch, char *argument, int cmd)
 {
   if (IS_NPC(ch))
     return;

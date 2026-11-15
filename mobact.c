@@ -18,7 +18,6 @@ extern struct room_data *world;
 extern struct descriptor_data *descriptor_list;
 
 void hit(struct char_data *ch, struct char_data *victim, int type);
-char *strdup(char *source);
 
 int check4enemies(struct char_data *ch, int type)
 {
@@ -26,7 +25,7 @@ int check4enemies(struct char_data *ch, int type)
 
   if(!ch->player.title) return(0);
   if(IS_SET(world[ch->in_room].room_flags,LAWFUL))
-    return;
+    return(0);
   for(tmp=world[ch->in_room].people; tmp; tmp = tmp->next_in_room){
     if(!IS_NPC(tmp) && !strcmp(ch->player.title,GET_NAME(tmp))){
       switch(type){

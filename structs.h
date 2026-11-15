@@ -1,3 +1,5 @@
+#ifndef STRUCTS_H
+#define STRUCTS_H
 #include <sys/types.h>
 
 typedef signed char sbyte;
@@ -705,3 +707,4 @@ struct message_list {
   struct message_type *msg; /* List of messages.         */
 };
 
+#endif /* STRUCTS_H */

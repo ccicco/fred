@@ -1,3 +1,5 @@
+#ifndef COMM_H
+#define COMM_H
 /* ************************************************************************
 *  file: comm.h , Communication module.                   Part of DIKUMUD *
 *  Usage: Prototypes for the common functions in comm.c                   *
@@ -31,3 +33,4 @@ void write_to_q(char *txt, struct txt_q *queue);
 #define BADDOMS 16
 #define BADSTRLEN 32
 
+#endif /* COMM_H */

@@ -16,6 +16,12 @@
 #include <signal.h>
 #include <setjmp.h>
 #include <stdlib.h>
+#include <time.h>
+#include <strings.h>
+#include <arpa/inet.h>
+#ifndef FNDELAY
+#define FNDELAY O_NONBLOCK
+#endif
 
 #include "structs.h"
 #include "utils.h"
@@ -84,7 +90,7 @@ void checkpointing(int sig);
 int get_from_q(struct txt_q *queue, char *dest);
 /* write_to_q is in comm.h for the macro */
 int run_the_game(int port);
-int game_loop(int s);
+void game_loop(int s);
 int init_socket(int port);
 int new_connection(int s);
 int new_descriptor(int s);
@@ -92,6 +98,10 @@ int process_output(struct descriptor_data *t);
 int process_input(struct descriptor_data *t);
 void close_sockets(int s);
 void close_socket(struct descriptor_data *d);
+void stash_char(struct char_data *ch, char *filename);
+void weather_and_time(int mode);
+void wipe_obj(struct obj_data *obj);
+int unfriendly_domain(char *h, char list[BADDOMS][BADSTRLEN], int listlen);
 struct timeval timediff(struct timeval *a, struct timeval *b);
 void flush_queues(struct descriptor_data *d);
 void nonblock(int s);
@@ -175,6 +185,7 @@ int run_the_game(int port)
   saveallplayers();
   close_sockets(s);
   log("Normal termination of game.");
+  return 0;
 }
 void saveallplayers()
 {
@@ -198,7 +209,7 @@ void saveallplayers()
 
 fd_set input_set, output_set, exc_set;
 
-int game_loop(int s)
+void game_loop(int s)
 {
   int tmp_room, old_len;
   struct timeval last_time, now, timespent, timeout, null_time;
@@ -253,7 +264,6 @@ int game_loop(int s)
       last_time.tv_usec -= 1000000;
       last_time.tv_sec++;
     }
-    extern int sigsetmask (int __mask) __THROW __attribute_deprecated__;
     if(timeout.tv_usec)
     if(select(0, (fd_set *) 0, (fd_set *) 0, (fd_set *) 0, &timeout) < 0) {
       perror("Select sleep");
@@ -263,7 +273,6 @@ int game_loop(int s)
       perror("Select poll");
       exit(0);
     }
-    extern int sigsetmask (int __mask) __THROW __attribute_deprecated__;
     if(!nonewconnect)
      if(FD_ISSET(s, &input_set))
       new_descriptor(s);
@@ -405,7 +414,7 @@ int game_loop(int s)
 zapper shuts down the game on Mon-Fri at 7 am EST
 
 */
-zapper()
+void zapper()
 {
    int dow,tod,t;
 
@@ -541,7 +550,7 @@ int new_connection(int s)
 {
   struct sockaddr_in isa;
   /* struct sockaddr peer; */
-  int i;
+  socklen_t i;
   int t;
   char buf[100];
 
@@ -558,7 +567,8 @@ int new_descriptor(int s)
 {
   int desc;
   struct descriptor_data *newd;
-  int i,size;
+  int i;
+  socklen_t size;
   struct sockaddr_in sock;
   struct hostent *from;
   char buf[10];
@@ -620,10 +630,8 @@ int new_descriptor(int s)
   return(0);
 }
 
-unfriendly_domain(h,list,listlen)
-char *h;
-char list[BADDOMS][BADSTRLEN];
-int listlen;
+int unfriendly_domain(char *h, char list[BADDOMS][BADSTRLEN], int listlen)
+{
 {
    int i;
 
@@ -995,7 +1003,7 @@ void act(char *str, int hide_invisible, struct char_data *ch,
               log(str);
               break;
           }
-          while (*point = *(i++))
+          while ((*point = *(i++)))
             ++point;
           ++strp;
         }

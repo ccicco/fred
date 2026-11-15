@@ -20,7 +20,7 @@
 
 /* extern variables */
 
-extern dig_room, dig_vnum;
+extern int dig_room, dig_vnum;
 extern int top_of_world;
 extern struct index_data *obj_index;
 extern struct room_data *world;

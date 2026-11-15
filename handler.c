@@ -503,7 +503,7 @@ int get_number(char **name) {
   char *ppos;
   char number[MAX_INPUT_LENGTH] = "";
  
-  if (ppos = (char *)index(*name, '.')) {
+  if (ppos = (char *)strchr(*name, '.')) {
     *ppos++ = '\0';
     strcpy(number,*name);
     strcpy(*name, ppos);

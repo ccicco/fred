@@ -1,3 +1,5 @@
+#ifndef LIMITS_H
+#define LIMITS_H
 /* ************************************************************************
 *  file: limits.h , Limit/Gain control module             Part of DIKUMUD *
 *  Usage: declaration of title type                                       *
@@ -10,3 +12,4 @@ int move_limit(struct char_data *ch);
 
 #define MAXGUT 100
 
+#endif /* LIMITS_H */

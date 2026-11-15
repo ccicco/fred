@@ -1,0 +1,77 @@
+--- comm.c
++++ comm.c
+@@ -16,6 +16,9 @@
+ #include <signal.h>
+ #include <setjmp.h>
+ #include <stdlib.h>
++#include <time.h>
++#include <strings.h>
++#include <arpa/inet.h>
+ #ifndef FNDELAY
+ #define FNDELAY O_NONBLOCK
+ #endif
+@@ -87,7 +90,7 @@
+ int get_from_q(struct txt_q *queue, char *dest);
+ /* write_to_q is in comm.h for the macro */
+ int run_the_game(int port);
+-int game_loop(int s);
++void game_loop(int s);
+ int init_socket(int port);
+ int new_connection(int s);
+ int new_descriptor(int s);
+@@ -95,6 +98,10 @@
+ int process_input(struct descriptor_data *t);
+ void close_sockets(int s);
+ void close_socket(struct descriptor_data *d);
++void stash_char(struct char_data *ch, char *filename);
++void weather_and_time(int mode);
++void wipe_obj(struct obj_data *obj);
++int unfriendly_domain(char *h, char list[BADDOMS][BADSTRLEN], int listlen);
+ struct timeval timediff(struct timeval *a, struct timeval *b);
+ void flush_queues(struct descriptor_data *d);
+ void nonblock(int s);
+@@ -178,6 +185,7 @@
+   saveallplayers();
+   close_sockets(s);
+   log("Normal termination of game.");
++  return 0;
+ }
+ void saveallplayers()
+ {
+@@ -201,7 +209,7 @@
+ 
+ fd_set input_set, output_set, exc_set;
+ 
+-int game_loop(int s)
++void game_loop(int s)
+ {
+   int tmp_room, old_len;
+   struct timeval last_time, now, timespent, timeout, null_time;
+@@ -542,7 +550,7 @@
+ {
+   struct sockaddr_in isa;
+   /* struct sockaddr peer; */
+-  int i;
++  socklen_t i;
+   int t;
+   char buf[100];
+ 
+@@ -559,7 +567,8 @@
+ {
+   int desc;
+   struct descriptor_data *newd;
+-  int i,size;
++  int i;
++  socklen_t size;
+   struct sockaddr_in sock;
+   struct hostent *from;
+   char buf[10];
+@@ -996,7 +1005,7 @@
+               log(str);
+               break;
+           }
+-          while (*point = *(i++))
++          while ((*point = *(i++)))
+             ++point;
+           ++strp;
+         }

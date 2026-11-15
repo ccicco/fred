@@ -37,7 +37,7 @@ extern char *bobname;
 extern struct char_data *character_list;
 extern struct obj_data *object_list;
 extern struct descriptor_data *descriptor_list;
-extern dig_room, build_room, dig_vnum, build_vnum;
+extern int dig_room, build_room, dig_vnum, build_vnum;
 
 /* external functs */
 
@@ -59,7 +59,7 @@ void to_long_long(char *s, long long n);
 #ifdef NEEDS_STRDUP
 char *strdup(char *s);
 #endif
-do_emote(struct char_data *ch, char *argument, int cmd)
+void do_emote(struct char_data *ch, char *argument, int cmd)
 {
   int i;
   static char buf[MAX_STRING_LENGTH];
@@ -852,7 +852,7 @@ void do_load(struct char_data *ch, char *argument, int cmd)
   } else
     send_to_char("That'll have to be either 'char' or 'obj'.\n\r", ch);
 }
-purge_rent(struct char_data *vict)
+void purge_rent(struct char_data *vict)
 {
   int i;
 
@@ -1006,7 +1006,7 @@ void do_restore(struct char_data *ch, char *argument, int cmd)
     }
 }
 
-do_noshout(struct char_data *ch, char *argument, int cmd)
+void do_noshout(struct char_data *ch, char *argument, int cmd)
 {
   struct char_data *vict;
   struct obj_data *dummy;
@@ -1362,7 +1362,7 @@ void do_invis(struct char_data *ch, char *argument, int cmd)
   }
   send_to_char("Ok.\n\r",ch);
 }
-do_banish(struct char_data *ch, char *argument, int cmd)
+void do_banish(struct char_data *ch, char *argument, int cmd)
 {
   struct char_data *vict;
   struct obj_data *dummy;
@@ -1400,7 +1400,7 @@ do_banish(struct char_data *ch, char *argument, int cmd)
   }
   send_to_char("OK.\n\r",ch);
 }
-do_flag(struct char_data *ch, char *argument, int cmd)
+void do_flag(struct char_data *ch, char *argument, int cmd)
 {
   struct char_data *vict;
   struct obj_data *dummy;

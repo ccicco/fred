@@ -1,3 +1,5 @@
+#ifndef DB_H
+#define DB_H
 /* ************************************************************************
 *  file: db.h , Database module.                          Part of DIKUMUD *
 *  Usage: Loading/Saving chars booting world.                             *
@@ -132,3 +134,4 @@ struct help_index_element
   char *keyword;
   long pos;
 };
+#endif /* DB_H */

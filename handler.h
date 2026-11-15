@@ -1,3 +1,5 @@
+#ifndef HANDLER_H
+#define HANDLER_H
 /* ************************************************************************
 *  file: handler.h , Handler module.                      Part of DIKUMUD *
 *  Usage: Various routines for moving about objects/players               *
@@ -71,3 +73,4 @@ int generic_find(char *arg, int bitvector, struct char_data *ch,
 #define FIND_OBJ_WORLD    16
 #define FIND_OBJ_EQUIP    32
 
+#endif /* HANDLER_H */

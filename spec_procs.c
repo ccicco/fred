@@ -1721,11 +1721,11 @@ int drinkmachine(struct char_data *ch, int cmd, char *arg)
   if((number(-2,GET_COND(ch,DRUNK))>10)&&(GET_COND(ch,THIRST)>0)) {
     act("You simply fail to reach your mouth!", FALSE, ch, 0, 0, TO_CHAR);
     act("$n tried to drink but missed $s mouth!", TRUE, ch, 0, 0, TO_ROOM);
-    return;
+    return TRUE;
   }
   if((GET_COND(ch,FULL)>((95*GET_GUT(ch))/100))&&(GET_COND(ch,THIRST)>0)) {
     act("Your stomach can't contain anymore!",FALSE,ch,0,0,TO_CHAR);
-    return;
+    return TRUE;
   }
   if(temp->obj_flags.value[1]>0) {  
     sprintf(buf,"$n drinks %s from $p",drinks[temp->obj_flags.value[2]]);

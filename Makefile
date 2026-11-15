@@ -1,6 +1,6 @@
-CC=gcc
-CFLAGS = -g -DIMO=1000 -DSYSV -fno-builtin-log
-CLIBS = -lnsl -lcrypt
+CC=clang
+CFLAGS = -g -DIMO=1000 -DSYSV -fno-builtin-log -include unistd.h -Wno-error=implicit-function-declaration -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types
+CLIBS = -lcrypt
 HEADERFILES = structs.h utils.h comm.h interpreter.h db.h
 dms : comm.o act.comm.o act.informative.o act.movement.o act.obj1.o \
 act.obj2.o act.offensive.o act.other.o act.social.o act.wizard.o handler.o \
@@ -98,7 +98,7 @@ act.obj2.c act.offensive.c act.other.c act.social.c act.wizard.c handler.c \
 db.c interpreter.c utility.c spec_assign.c shop.c limits.c mobact.c fight.c  \
 modify.c weather.c spells1.c spells2.c spell_parser.c constants.c  \
 spec_procs.c magic.c rank.c build.c bot.c alias.c
-	$(CC) -L/usr/ucblib -o dms $(CFLAGS) comm.o act.comm.o \
+	$(CC) -o dms $(CFLAGS) comm.o act.comm.o \
 act.informative.o  \
 act.movement.o act.obj1.o act.obj2.o act.offensive.o act.other.o \
 act.social.o act.wizard.o handler.o db.o interpreter.o utility.o \
@@ -106,8 +106,5 @@ spec_assign.o shop.o limits.o mobact.o fight.o modify.o weather.o spells1.o \
 spells2.o spell_parser.o constants.o spec_procs.o magic.o poker.o rank.o \
 build.o act.obj3.o bot.o alias.o $(CLIBS)
 
-
-
-
-
-
+clean:
+	rm -f *.o dms
