@@ -632,7 +632,6 @@ int new_descriptor(int s)
 
 int unfriendly_domain(char *h, char list[BADDOMS][BADSTRLEN], int listlen)
 {
-{
    int i;
 
    for(i=0;i<listlen;++i){
