@@ -264,14 +264,25 @@ void game_loop(int s)
       last_time.tv_usec -= 1000000;
       last_time.tv_sec++;
     }
-    if(timeout.tv_usec)
-    if(select(0, (fd_set *) 0, (fd_set *) 0, (fd_set *) 0, &timeout) < 0) {
-      perror("Select sleep");
-      exit(1);
+    if(timeout.tv_usec) {
+      int selr;
+      do {
+        selr = select(0, (fd_set *) 0, (fd_set *) 0, (fd_set *) 0, &timeout);
+      } while(selr < 0 && errno == EINTR); /* EINTR: retry sleeps the remainder */
+      if(selr < 0) {
+        perror("Select sleep");
+        exit(1);
+      }
     }
-    if(select(maxdesc+1, &input_set, &output_set, &exc_set, &null_time) < 0) {
-      perror("Select poll");
-      exit(0);
+    {
+      int selr;
+      do {
+        selr = select(maxdesc+1, &input_set, &output_set, &exc_set, &null_time);
+      } while(selr < 0 && errno == EINTR); /* EINTR: just re-poll */
+      if(selr < 0) {
+        perror("Select poll");
+        exit(1);
+      }
     }
     if(!nonewconnect)
      if(FD_ISSET(s, &input_set))
@@ -1095,6 +1106,13 @@ void hupsig(int sig)
 
   signal(sig,hupsig);
   sigct++;
+  if(!xo || !xo->character) { /* nobody online: no player to report */
+    sprintf(ss,"SIG(%d,%d): signal %d caught, no players online",
+      sigct,sig,sig);
+    log(ss);
+    shutdowngame = 100;  /* clean save-all exit from the game loop */
+    return;
+  }
   sprintf(ss,"SIG(%d,%d): %s %s",
     sigct,sig,xo->character->player.name,xo->host);
   --GET_INT(xo->character);
