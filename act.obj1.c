@@ -440,7 +440,7 @@ void do_put(struct char_data *ch, char *argument, int cmd)
   if(*arg1) {
    if(*arg2) {
     if(strcmp("all",arg1)==0){
-     if(p=(char *)strchr(arg2,'.'))
+     if((p=(char *)strchr(arg2,'.')))
        sprintf(buf,"!%s",p+1);
      else
        sprintf(buf,"!%s",arg2);
@@ -463,7 +463,7 @@ void do_put(struct char_data *ch, char *argument, int cmd)
       send_to_char("It seems to be closed.\n\r", ch); return;
     }
     for(i=0;;i++){
-     if(obj_object = get_obj_in_list_vis(ch,ptr,ch->carrying)){
+     if((obj_object = get_obj_in_list_vis(ch,ptr,ch->carrying))){
       if(obj_object == sub_object) {
        send_to_char("You attempt to fold it into itself, but fail.\n\r",ch);
        return;

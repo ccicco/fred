@@ -101,7 +101,7 @@ int barker(struct char_data *ch, int cmd, char *arg)
         act(buf,TRUE,ch,0,0,TO_ROOM);
         for(i=0;i<nbets;++i){
           if(b[i].num == winner){
-            if(tmp = get_char_room_vis(ch,b[i].name)){
+            if((tmp = get_char_room_vis(ch,b[i].name))){
               amt = 100*b[i].amt;
               sprintf(buf,"$n says 'Well well, %s wins %d coins!",
                 GET_NAME(tmp),amt);
@@ -254,7 +254,7 @@ int dealer(struct char_data *ch, int cmd, char *arg)
             sprintf(buf,"$n says '%s has blackjack, and wins %d.\n\r",
               bj[i].name,2*bj[i].amt);
             act(buf,TRUE,ch,0,0,TO_ROOM);
-            if(tmp=get_char_room_vis(ch,bj[i].name)){
+            if((tmp=get_char_room_vis(ch,bj[i].name))){
               amt=3*bj[i].amt;
               GET_GOLD(tmp) += amt;
               GET_GOLD(ch ) -= amt;

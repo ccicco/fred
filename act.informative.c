@@ -137,7 +137,7 @@ void equiplist(char buffer[], struct char_data *t, struct char_data *v)
   for (j=0; j< MAX_WEAR; j++) {
     fp = eqfmt[j&1];
     i = eqorder[j];
-    if (o = t->equipment[i]) {
+    if ((o = t->equipment[i])) {
       if (CAN_SEE_OBJ(v,o)){
         sprintf(buf,fp,where[i],
           IS_OBJ_STAT(o,ITEM_HUM) ? '+' : ' ',o->short_description);
@@ -869,7 +869,7 @@ void do_score(struct char_data *ch, char *argument, int cmd)
   }
   if(ch->affected) {
     i=0;
-    sprintf(buf,"Spells:\n\r", ch);
+    sprintf(buf,"Spells:\n\r");
     for(aff = ch->affected; aff; aff = aff->next) {
       if(GET_INT(ch) >= 40){
         sprintf(buf2,"%-18s%5d",spells[aff->type-1],aff->duration);
@@ -1459,7 +1459,7 @@ void do_evaluate(struct char_data *ch, char *argument, int cmd)
   dr=vict->points.damroll;
   strcpy(name,IS_NPC(vict) ? vict->player.short_descr : GET_NAME(vict));
   CAP(name);
-  sprintf(buf,"%s: HP=%d AC=%d XP=%d HR=%d DR=%d MR=%d BHD=%dD%d.\n\r",
+  sprintf(buf,"%s: HP=%d AC=%d XP=%d HR=%d DR=%d MR=%d BHD=%ldD%ld.\n\r",
    name,hp,ac,GET_EXP(vict),hr,dr,vict->specials.magres,
    vict->specials.damnodice,vict->specials.damsizedice);
   sprintf(buf2,"Str=%d Int=%d Wis=%d Dex=%d Con=%d. Alignment=%d\n\r",
@@ -1728,7 +1728,7 @@ void do_identify(struct char_data *ch, char *argument, int cmd)
     send_to_char("Identify what?\n\r",ch);
     return;
   }
-  if(obj = get_obj_in_list_vis(ch, arg1, ch->carrying)) {
+  if((obj = get_obj_in_list_vis(ch, arg1, ch->carrying))) {
     send_to_char("You feel informed:\n\r", ch);
     sprintf(buf, "Object '%s', Item type: ", obj->name);
     sprinttype(GET_ITEM_TYPE(obj),item_types,buf2);
@@ -1853,7 +1853,7 @@ void do_identify(struct char_data *ch, char *argument, int cmd)
           found = TRUE;
         }
         sprinttype(obj->affected[i].location,apply_types,buf2);
-        sprintf(buf,"   Affects: %s by %d\n\r",buf2,obj->affected[i].modifier);
+        sprintf(buf,"   Affects: %s by %ld\n\r",buf2,obj->affected[i].modifier);
         send_to_char(buf, ch);
       }
     }

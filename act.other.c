@@ -199,7 +199,7 @@ void do_steal(struct char_data *ch, char *argument, int cmd)
       hit(victim, ch, TYPE_UNDEFINED);
 }
 
-bool do_practice(struct char_data *ch, char *arg, int cmd)
+void do_practice(struct char_data *ch, char *arg, int cmd)
 {
   int i,j;
   char buf[MAX_STRING_LENGTH],buf2[128];
@@ -219,7 +219,7 @@ bool do_practice(struct char_data *ch, char *arg, int cmd)
   }
   if(j) strcat(buf,"\n\r");
   send_to_char(buf, ch);
-  return(TRUE);
+  return;
 }
 
 void do_brief(struct char_data *ch, char *argument, int cmd)

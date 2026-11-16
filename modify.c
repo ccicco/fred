@@ -88,7 +88,7 @@ void string_add(struct descriptor_data *d, char *str)
 
   /* determine if this is the terminal string, and truncate if so */
   for (scan = str; *scan; scan++)
-     if (terminator = (*scan == '@'))
+     if ((terminator = (*scan == '@')))
      {
       *scan = '\0';
       break;
@@ -162,7 +162,7 @@ void quad_arg(char *arg, int *type, char *name, int *field, char *string)
 
   /* string */
   for (; isspace(*arg); arg++);
-  for (; *string = *arg; arg++, string++);
+  for (;( *string = *arg); arg++, string++);
 
   return;
 }
@@ -358,7 +358,7 @@ void do_title(struct char_data *ch, char *arg, int cmd)
   }
   if(cmd==175){
     half_chop(arg,name,tit);
-    if(vict=get_char(name)){
+    if((vict=get_char(name))){
       if(vict->player.title)
         free(vict->player.title);
       vict->player.title=(char *)strdup(tit);
@@ -399,7 +399,7 @@ void do_rename(struct char_data *ch, char *arg, int cmd)
       send_to_char("Blow me!\n\r",ch);
       return;
     }
-    if(obj=get_obj_in_list_vis(ch,name,ch->carrying)){
+    if((obj=get_obj_in_list_vis(ch,name,ch->carrying))){
       if(obj->short_description)
         free(obj->short_description);
       obj->short_description=(char *)strdup(tit);

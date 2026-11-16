@@ -108,7 +108,7 @@ void do_mod(struct char_data *ch, char *argument, int cmd)
     world[room].description=strdup(argument);
   } else if(*what == 'f'){   /* flags */
     if(!*argument){
-      sprintf(buf,"Current room flags are %d = ",(long) rm->room_flags);
+      sprintf(buf,"Current room flags are %ld = ",(long) rm->room_flags);
       send_to_char(buf,ch);
       sprintbit((long) rm->room_flags,room_bits,buf);
       strcat(buf,"\n\r");

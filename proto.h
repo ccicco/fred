@@ -15,6 +15,9 @@
 #include "interpreter.h"
 #include "handler.h"
 #include "db.h"
+char *crypt(const char *, const char *);
+int abs(int);
+long lrand48(void);
 #include "spells.h"
 #include "limits.h"
 
@@ -177,7 +180,7 @@ void do_areas(struct char_data *ch, char *argument, int cmd);
 void do_ask(struct char_data *ch, char *argument, int cmd);
 void do_assist(struct char_data *ch, char *argument, int cmd);
 void do_at(struct char_data *ch, char *argument, int cmd);
-void do_attack(struct char_data *ch, struct char_data *victim, int type);
+void do_attack(struct char_data *ch, char *arg, int type);
 void do_backstab(struct char_data *ch, char *argument, int cmd);
 void do_banish(struct char_data *ch, char *argument, int cmd);
 void do_bank(struct char_data *ch, char *argument, int cmd);
@@ -258,7 +261,7 @@ void do_piss(struct char_data *ch, char *argument, int cmd);
 void do_police(struct char_data *ch, char *argument, int cmd);
 void do_possess(struct char_data *ch, char *argument, int cmd);
 void do_pour(struct char_data *ch, char *argument, int cmd);
-bool do_practice(struct char_data *ch, char *arg, int cmd);
+void do_practice(struct char_data *ch, char *arg, int cmd);
 void do_puke(struct char_data *ch, char *argument, int cmd);
 void do_purge(struct char_data *ch, char *argument, int cmd);
 void do_put(struct char_data *ch, char *argument, int cmd);
@@ -272,7 +275,7 @@ void do_recite(struct char_data *ch, char *argument, int cmd);
 void do_reload(struct char_data *ch, char *argument, int cmd);
 void do_remove(struct char_data *ch, char *argument, int cmd);
 void do_rename(struct char_data *ch, char *arg, int cmd);
-void do_rent(struct char_data *ch, int cmd, char *arg);
+void do_rent(struct char_data *ch, char *arg, int cmd);
 void do_replacerent(struct char_data *ch,char *argument, int cmd);
 void do_report(struct char_data *ch, char *argument, int cmd);
 void do_rescue(struct char_data *ch, char *argument, int cmd);

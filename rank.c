@@ -488,18 +488,18 @@ float per;
 secs = time(0)  - ch->specials.connect_time;
 
 if (KEY_SPAMMING) {
-  sprintf(kbuf,"%3d:%02d:%02d",secs / 3600,
+  sprintf(kbuf,"%3ld:%02ld:%02ld",secs / 3600,
         (secs %3600) / 60, (secs % 3600) % 60);
 } else
 if (KEY_PRINTING) {
   per = secs;
   per = per/(time(0) - reboottime);
 
-  sprintf(kbuf,"%3d:%02d:%02d = %4.2f %% of Running Time",secs / 3600,
+  sprintf(kbuf,"%3ld:%02ld:%02ld = %4.2f %% of Running Time",secs / 3600,
 	(secs %3600) / 60, (secs % 3600) % 60,   per*100);
 }
 else
-        sprintf(kbuf,"%d",secs);
+        sprintf(kbuf,"%ld",secs);
 return(kbuf);
 } /* end rank_time */
 
@@ -787,7 +787,7 @@ return(kbuf);
 if (KEY_PRINTING)
 	sprintf(kbuf,"%3d",(age(ch).year));
 else
-	sprintf(kbuf,"%12d",-(ch)->player.time.birth);
+	sprintf(kbuf,"%12ld",-(ch)->player.time.birth);
 
 return(kbuf);
 } /* end rank_age */

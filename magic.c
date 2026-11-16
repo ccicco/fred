@@ -1628,7 +1628,7 @@ void spell_frost_breath(short level, struct char_data *ch,
       extract_obj(frozen);
     }
     if(IS_SET(world[victim->in_room].room_flags,DARK))
-    if(frozen=victim->equipment[WEAR_LIGHT]){
+    if((frozen=victim->equipment[WEAR_LIGHT])){
       if(frozen->obj_flags.value[2]){
         world[victim->in_room].light--;
         frozen->obj_flags.value[2]=0;

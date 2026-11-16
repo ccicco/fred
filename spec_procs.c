@@ -330,6 +330,7 @@ int guild(struct char_data *ch, int cmd, char *arg)
     send_to_char("You're now as proficient as possible.\n\r",ch);
     return(TRUE);
   }
+  return(TRUE);
 }
 int fitness(struct char_data *ch, int cmd, char *arg)
 {
@@ -443,6 +444,7 @@ int dump(struct char_data *ch, int cmd, char *arg)
     if(GET_LEVEL(ch) < 10)
       gain_exp(ch, value);
   }
+  return(TRUE);
 }
 
 int mayor(struct char_data *ch, int cmd, char *arg)
@@ -562,7 +564,7 @@ void npc_steal_obj(struct char_data *ch,struct char_data *victim, char *oname)
       FALSE,ch,0,victim,TO_VICT);
     act("$n tries to rob $N.",TRUE, ch, 0, victim, TO_NOTVICT);
   } else {
-    if(obj = get_obj_in_list_vis(victim, oname, victim->carrying)){
+    if((obj = get_obj_in_list_vis(victim, oname, victim->carrying))){
       obj_from_char(obj);
       obj_to_char(obj, ch);
     } else
@@ -696,6 +698,7 @@ int charmer(struct char_data *ch, int cmd, char *arg)
     }
     return FALSE;
   }
+  return FALSE;
 }
 int magic_user(struct char_data *ch, int cmd, char *arg)
 {
@@ -725,6 +728,7 @@ int magic_user(struct char_data *ch, int cmd, char *arg)
      }
   }
   spellcast(ch,vict,GET_LEVEL(ch));
+  return TRUE;
 }
 void spellcast(struct char_data *ch,struct char_data *vict, int lev)
 {
@@ -1264,7 +1268,7 @@ int metaphysician(struct char_data *ch, int cmd, char *arg)
   int i,k,opt,cost,reps;
 
   if(!cmd){
-    if(vict=ch->specials.fighting)
+    if((vict=ch->specials.fighting))
       vict->specials.recall_room=ch->in_room;
     return(FALSE);
   }
@@ -1577,7 +1581,7 @@ int kickbasher(struct char_data *ch, int cmd, char *arg)
 
   if(cmd)
     return(FALSE);
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     if(GET_POS(ch) < POSITION_FIGHTING){
       do_stand(ch,"",0);
       if(number(1,100) < 25)
@@ -1613,7 +1617,7 @@ int kickbasher(struct char_data *ch, int cmd, char *arg)
             for(i=0;buf[i] && (buf[i]!=' ');++i);
             buf[i]=0;
             do_get(ch,buf,0);
-            if(o = get_obj_in_list_vis(ch,buf,ch->carrying)){
+            if((o = get_obj_in_list_vis(ch,buf,ch->carrying))){
               vno=number(1,2);
               if(o->obj_flags.value[vno] > 1)
                 o->obj_flags.value[vno]--;
@@ -1791,7 +1795,7 @@ int grandpa(struct char_data *ch, int cmd, char *arg)
       return(TRUE);
     }
   }
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     for(tmp=world[ch->in_room].people; tmp; tmp = tmp->next_in_room){
       if((ch == tmp->specials.fighting) && (!IS_NPC(tmp)))
         damage(ch,tmp,GET_LEVEL(tmp)>>5,TYPE_BLAST);
@@ -1983,7 +1987,7 @@ int unclefred(struct char_data *ch, int cmd, char *arg)
       spell_earthquake(GET_LEVEL(ch),ch,0,0);
     }
   }
-  if(tmp=ch->specials.fighting){
+  if((tmp=ch->specials.fighting)){
     p=get_char_room_vis(ch,AUNT_KATE);
     if(p)
       hit(p,tmp,TYPE_UNDEFINED);
@@ -2067,11 +2071,11 @@ int unclefred(struct char_data *ch, int cmd, char *arg)
       act("$n stands up.",FALSE,ch,0,0,TO_ROOM);
       break;
     case 'v':
-      if(tmp=gettarget(ch,1))
+      if((tmp=gettarget(ch,1)))
         do_action(ch,GET_NAME(tmp),soc_list2[number(0,NSOCS2-1)]);
       break;
     case 'w':
-      if(tmp=gettarget(ch,1)){
+      if((tmp=gettarget(ch,1))){
         sprintf(buf,insult[number(0,NINSULTS-1)],GET_NAME(tmp));
         do_say(ch,buf,0);
       }
@@ -2080,7 +2084,7 @@ int unclefred(struct char_data *ch, int cmd, char *arg)
       do_action(ch,"",soc_list[number(0,NSOCS-1)]);
       break;
     case 'y':
-      if(tmp=gettarget(ch,number(0,1))){
+      if((tmp=gettarget(ch,number(0,1)))){
         a1=number(0,NBA-1);
         do a2=number(0,NBA-1); while(a1==a2);
         sprintf(buf,"Hey %s, you %s%s%s!",GET_NAME(tmp),
@@ -2090,7 +2094,7 @@ int unclefred(struct char_data *ch, int cmd, char *arg)
       }
       break;
     case 'z':
-      if(tmp=gettarget(ch,number(0,1))){
+      if((tmp=gettarget(ch,number(0,1)))){
         sprintf(buf,insult[number(0,NINSULTS-1)],GET_NAME(tmp));
         do_shout(ch,buf,0);
       }
@@ -2120,7 +2124,7 @@ int rusher(struct char_data *ch, int cmd, char *arg)
         break;
       }
   }
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     if(!IS_NPC(vict) && vict->affected){
       affect_remove(vict,vict->affected);
       act("$n utters the words 'zolpidem tartrate'",FALSE,ch,0,0,TO_ROOM);
@@ -2163,6 +2167,7 @@ int highwayman(struct char_data *ch, int cmd, char *arg)
   } else {
     return(thief(ch,cmd,arg));
   }
+  return(TRUE);
 }
 int buddy(struct char_data *ch, int cmd, char *arg)
 {
@@ -2262,7 +2267,7 @@ int druid(struct char_data *ch, int cmd, char *arg)
 
   if(cmd)
     return(0);
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     if(vict && IS_NPC(vict) && (vict->master)){
       cast_nova(IMO,ch,"",SPELL_TYPE_SPELL,vict,0);
       cast_nova(IMO,ch,"",SPELL_TYPE_SPELL,vict->master,0);
@@ -2276,7 +2281,7 @@ int druid(struct char_data *ch, int cmd, char *arg)
   }
   if(GET_HIT(ch) < (GET_MAX_HIT(ch)>>2))
     cast_cure_critic(GET_LEVEL(ch),ch,"",SPELL_TYPE_SPELL,ch,0);
-  if(s=ch->player.title){
+  if((s=ch->player.title)){
     vict=get_char_vis(ch,s);
     if(vict){
       spell_summon(900,ch,vict,0);
@@ -2298,7 +2303,7 @@ int vampire(struct char_data *ch, int cmd, char *arg)
     cast_nova(IMO,ch,"",SPELL_TYPE_SPELL,vict,0);
     return(FALSE);
   }
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     cast_cure_critic(GET_LEVEL(ch),ch,"",SPELL_TYPE_SPELL,ch,0);
     return(kickbasher(ch,cmd,arg));
   }
@@ -2310,7 +2315,7 @@ int teleporter(struct char_data *ch, int cmd, char *arg)
 
   if(cmd)
     return(FALSE);
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     switch(number(0,9)){
       case 0:
       case 1:
@@ -2337,7 +2342,7 @@ int viper(struct char_data *ch, int cmd, char *arg)
   }
   if(cmd)
     return(FALSE);
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     switch(number(0,12)){
       case 0:
         druid(ch,0,0);
@@ -2465,6 +2470,7 @@ int sneaker(struct char_data *ch, int cmd, char *arg)
     return(FALSE);
   hunter(ch,0,0);
   check4enemies(ch,ch->equipment[WIELD] ? 2 : 1);
+  return TRUE;
 }
 int wilbur(struct char_data *ch, int cmd, char *arg)
 {
@@ -2475,7 +2481,7 @@ int wilbur(struct char_data *ch, int cmd, char *arg)
 
   if(cmd)
     return(FALSE);
-  if(vict=ch->specials.fighting){
+  if((vict=ch->specials.fighting)){
     if(GET_HIT(ch) > (GET_MAX_HIT(ch)-1000))
       return(FALSE);
     for(i=0;i<6;++i){
@@ -2493,7 +2499,7 @@ int wilbur(struct char_data *ch, int cmd, char *arg)
       t=0;
       for(tch=world[ch->in_room].people;tch;tch=tch->next_in_room){
         if(!IS_NPC(tch) && (GET_LEVEL(tch) < IMO)){
-          if(o=tch->equipment[WIELD]){
+          if((o=tch->equipment[WIELD])){
             if(isname("wd",o->name)){
               hit(ch,tch,SKILL_BACKSTAB);
               return(1);

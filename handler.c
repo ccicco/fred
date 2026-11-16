@@ -354,7 +354,8 @@ void char_from_room(struct char_data *ch)
      world[ch->in_room].people = ch->next_in_room;
   else {
     for (i = world[ch->in_room].people; 
-       i->next_in_room != ch; i = i->next_in_room);
+       i->next_in_room != ch; i = i->next_in_room)
+       ;
      i->next_in_room = ch->next_in_room;
   }
   ch->in_room = NOWHERE;
@@ -503,7 +504,7 @@ int get_number(char **name) {
   char *ppos;
   char number[MAX_INPUT_LENGTH] = "";
  
-  if (ppos = (char *)strchr(*name, '.')) {
+  if ((ppos = (char *)strchr(*name, '.'))) {
     *ppos++ = '\0';
     strcpy(number,*name);
     strcpy(*name, ppos);
@@ -928,7 +929,7 @@ struct char_data *get_specific_vis(struct char_data *ch, char *name, int type)
 {
   struct char_data *i;
 
-  if (i = get_char_room_vis(ch, name))
+  if ((i = get_char_room_vis(ch, name)))
     return(i);
   for (i=character_list;i;i=i->next)
     if((type&&IS_NPC(i))||((!type)&&(!IS_NPC(i))))
@@ -963,7 +964,7 @@ struct char_data *get_char_vis(struct char_data *ch, char *name)
   char *tmp;
 
   /* check location */
-  if (i = get_char_room_vis(ch, name))
+  if ((i = get_char_room_vis(ch, name)))
     return(i);
   strcpy(tmpname,name);
   tmp = tmpname;
@@ -1035,11 +1036,11 @@ struct obj_data *get_obj_vis(struct char_data *ch, char *name)
   char *tmp;
 
   /* scan items carried */
-  if (i = get_obj_in_list_vis(ch, name, ch->carrying))
+  if ((i = get_obj_in_list_vis(ch, name, ch->carrying)))
     return(i);
 
   /* scan room */
-  if (i = get_obj_in_list_vis(ch, name, world[ch->in_room].contents))
+  if ((i = get_obj_in_list_vis(ch, name, world[ch->in_room].contents)))
     return(i);
 
   strcpy(tmpname,name);
@@ -1183,13 +1184,13 @@ int generic_find(char *arg, int bitvector, struct char_data *ch,
   *tar_obj = 0;
 
   if (IS_SET(bitvector, FIND_CHAR_ROOM)) {      /* Find person in room */
-    if (*tar_ch = get_char_room_vis(ch, name)) {
+    if ((*tar_ch = get_char_room_vis(ch, name))) {
       return(FIND_CHAR_ROOM);
     }
   }
 
   if (IS_SET(bitvector, FIND_CHAR_WORLD)) {
-    if (*tar_ch = get_char_vis(ch, name)) {
+    if ((*tar_ch = get_char_vis(ch, name))) {
       return(FIND_CHAR_WORLD);
     }
   }
@@ -1206,19 +1207,19 @@ int generic_find(char *arg, int bitvector, struct char_data *ch,
   }
 
   if (IS_SET(bitvector, FIND_OBJ_INV)) {
-    if (*tar_obj = get_obj_in_list_vis(ch, name, ch->carrying)) {
+    if ((*tar_obj = get_obj_in_list_vis(ch, name, ch->carrying))) {
       return(FIND_OBJ_INV);
     }
   }
 
   if (IS_SET(bitvector, FIND_OBJ_ROOM)) {
-    if (*tar_obj = get_obj_in_list_vis(ch, name, world[ch->in_room].contents)) {
+    if ((*tar_obj = get_obj_in_list_vis(ch, name, world[ch->in_room].contents))) {
       return(FIND_OBJ_ROOM);
     }
   }
 
   if (IS_SET(bitvector, FIND_OBJ_WORLD)) {
-    if (*tar_obj = get_obj_vis(ch, name)) {
+    if ((*tar_obj = get_obj_vis(ch, name))) {
       return(FIND_OBJ_WORLD);
     }
   }

@@ -8,6 +8,8 @@ typedef signed short int sh_int;
 typedef unsigned short int ush_int;
 typedef char bool;
 typedef char byte;
+struct char_data;
+typedef int special_f(struct char_data *ch, int cmd, char *arg);
 
 struct momtalktype {
   int n;
@@ -278,7 +280,7 @@ struct room_data
   struct room_direction_data *dir_option[6]; /* Directions           */
   unsigned long room_flags;    /* DEATH,DARK ... etc                 */ 
   byte light;                  /* Number of lightsources in room     */
-  int (*funct)();              /* special procedure                  */
+  special_f *funct;              /* special procedure                  */
          
   struct obj_data *contents;   /* List of items in room              */
   struct char_data *people;    /* List of NPC / PC in room           */

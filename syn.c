@@ -187,7 +187,7 @@ void check_world(FILE *fl)
     old_virtual = virtual_nr;
 
     temp = fread_string(fl);
-    if (flag = (*temp != '$'))  /* a new record to be read */
+    if ((flag = (*temp != '$')))  /* a new record to be read */
     {
       temp2 = fread_string(fl);
 
@@ -396,7 +396,7 @@ void check_mobile(FILE *fl)
     old_virtual = virtual_nr;
 
     temp = fread_string(fl);  /* Namelist */
-    if (flag = (*temp != '$')) {  /* a new record to be read */
+    if ((flag = (*temp != '$'))) {  /* a new record to be read */
 
       /***** String data *** */
       /* Name already read mob->player.name = fread_string(fl); */
@@ -588,7 +588,7 @@ void check_objects(FILE *fl)
     old_virtual = virtual_nr;
 
     temp = fread_string(fl);  /* Namelist */
-    if (flag = (*temp != '$')) {  /* a new record to be read */
+    if ((flag = (*temp != '$'))) {  /* a new record to be read */
 
       /* *** string data *** */
 
@@ -691,7 +691,7 @@ char *fread_string(FILE *fl)
 
     for (point = buf + strlen(buf) - 2; point >= buf && isspace(*point);
       point--);    
-    if (flag = (*point == '~'))
+    if ((flag = (*point == '~')))
       if (*(buf + strlen(buf) - 3) == '\n')
       {
         *(buf + strlen(buf) - 2) = '\r';

@@ -338,7 +338,7 @@ void game_loop(int s)
     for (point = descriptor_list; point; point = next_point) {
       next_point = point->next;
       xo=point;
-      if (FD_ISSET(point->descriptor, &output_set) && point->output.head)
+      if (FD_ISSET(point->descriptor, &output_set) && point->output.head) {
         if((flag=process_output(point)) < 0){
           FD_CLR(point->descriptor, &input_set);
           FD_CLR(point->descriptor, &output_set);
@@ -348,6 +348,7 @@ void game_loop(int s)
           close_socket(point);
         } else
           point->prompt_mode = flag;
+      }
      }
     /* give the people some prompts */
     ++xoclock;
@@ -364,7 +365,7 @@ void game_loop(int s)
 	out_char = point->character; /* SLUG_CHANGE 11-17-96 */
         if (point->str)
           write_to_descriptor(point->descriptor, "] ");
-        else if (!point->connected)
+        else if (!point->connected) {
           if (point->showstr_point)
             write_to_descriptor(point->descriptor,
               "--<< Press return >>--");
@@ -387,6 +388,7 @@ void game_loop(int s)
             }
             write_to_descriptor(point->descriptor, prmpt);
           }
+        }
         point->prompt_mode = 0;
       }
     }

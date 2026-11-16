@@ -1800,7 +1800,7 @@ void do_replacerent(struct char_data *ch,char *argument, int cmd)
   log(buf);
 }
 
-void do_rent(struct char_data *ch, int cmd, char *arg)
+void do_rent(struct char_data *ch, char *arg, int cmd)
 {
   char buf[240];
   sh_int save_room;

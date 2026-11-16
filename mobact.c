@@ -87,7 +87,7 @@ void mobile_activity(void)
        spell_heal(GET_LEVEL(ch),ch,ch,0);
      }
    }
-   if(vict=ch->specials.fighting){
+   if((vict=ch->specials.fighting)){
      if(IS_SET(ch->specials.act,ACT_GUARD))
        found=cityguard(ch,0,0);
      if(IS_SET(ch->specials.act,ACT_CASTER))
@@ -247,7 +247,7 @@ void mobile_activity(void)
        hit(ch, cho_ch, 0);
     } else if (IS_SET(ch->specials.act,ACT_HELPER)) {
      for(tmp_ch=world[ch->in_room].people;tmp_ch;tmp_ch=tmp_ch->next_in_room){
-      if(vict=tmp_ch->specials.fighting){
+      if((vict=tmp_ch->specials.fighting)){
        if(IS_NPC(tmp_ch) && (GET_LEVEL(vict) >= MIN(250,GET_LEVEL(ch))) &&
          CAN_SEE(ch,tmp_ch) && CAN_SEE(ch,vict) && (!IS_NPC(vict))){
            if((number(1,7)==3)&&

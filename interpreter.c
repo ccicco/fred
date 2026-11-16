@@ -602,7 +602,7 @@ int command_interpreter(struct char_data *ch, char *argument)
   }
   REMOVE_BIT(ch->specials.affected_by, AFF_HIDE);
   
-  for (begin = 0 ; (*(p + begin ) == ' ' ) ; begin++ );
+  for (begin = 0 ; *(p + begin ) == ' ' ; begin++ );
  
   for (look_at = 0; *(p + begin + look_at ) > ' ' ; look_at++)
     *(p+begin+look_at) = LOWER(*(p+begin+look_at));
@@ -803,7 +803,7 @@ void half_chop(char *string, char *arg1, char *arg2)
   for (; !isspace(*arg1 = *string) && *string; string++, arg1++);
   *arg1 = '\0';
   for (; isspace(*string); string++);
-  for (; *arg2 = *string; string++, arg2++);
+  for (;( *arg2 = *string); string++, arg2++);
   *arg2 = '\0';
 }
 
@@ -1183,7 +1183,7 @@ int _parse_name(char *arg, char *name)
   p=name;
   /* skip whitespaces */
   for (; isspace(*arg); arg++);
-  for (i = 0; *name = *arg; arg++, i++, name++) 
+  for (i = 0;( *name = *arg); arg++, i++, name++) 
     if ((*arg <0) || !isalpha(*arg) || i > 15)
        return(1); 
   if (!i)
@@ -1532,9 +1532,9 @@ case CON_PWDNRM: /* get pwd for known player */
      STATE(d) = CON_PLYNG;
      if(!GET_LEVEL(d->character)){
       do_start(d->character);
-      if(obj = read_object(3012,VIRTUAL))
+      if((obj = read_object(3012,VIRTUAL)))
        obj_to_char(obj,d->character);
-      if(obj = read_object(1309,VIRTUAL))
+      if((obj = read_object(1309,VIRTUAL)))
        obj_to_char(obj,d->character);
      }
      do_look(d->character,"",15);

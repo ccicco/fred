@@ -1,3 +1,4 @@
+#include <ctype.h>
 /* ************************************************************************
 *  file: act.movement.c , Implementation of commands      Part of DIKUMUD *
 *  Usage : Movement commands, close/open & lock/unlock doors.             *
@@ -250,7 +251,7 @@ void do_open(struct char_data *ch, char *argument, int cmd)
       send_to_char("Ok.\n\r", ch);
       act("$n opens $p.", FALSE, ch, obj, 0, TO_ROOM);
     }
-  else if ((door = find_door(ch, type, dir)) >= 0)
+  else if ((door = find_door(ch, type, dir)) >= 0) {
 
     /* perhaps it is a door */
 
@@ -271,7 +272,7 @@ void do_open(struct char_data *ch, char *argument, int cmd)
       send_to_char("Ok.\n\r", ch);
       /* now for opening the OTHER side of the door! */
       if ((other_room = EXIT(ch, door)->to_room) != NOWHERE)
-        if (back = world[other_room].dir_option[rev_dir[door]])  
+        if ((back = world[other_room].dir_option[rev_dir[door]]))  
           if (back->to_room == ch->in_room)
           {
             REMOVE_BIT(back->exit_info, EX_CLOSED);
@@ -288,6 +289,7 @@ void do_open(struct char_data *ch, char *argument, int cmd)
               EXIT(ch, door)->to_room);
           }             
     }
+  }
 }
 
 void do_close(struct char_data *ch, char *argument, int cmd)
@@ -318,7 +320,7 @@ void do_close(struct char_data *ch, char *argument, int cmd)
       send_to_char("Ok.\n\r", ch);
       act("$n closes $p.", FALSE, ch, obj, 0, TO_ROOM);
     }
-  else if ((door = find_door(ch, type, dir)) >= 0)
+  else if ((door = find_door(ch, type, dir)) >= 0) {
 
     /* Or a door */
 
@@ -337,7 +339,7 @@ void do_close(struct char_data *ch, char *argument, int cmd)
       send_to_char("Ok.\n\r", ch);
       /* now for closing the other side, too */
       if ((other_room = EXIT(ch, door)->to_room) != NOWHERE)
-        if (back = world[other_room].dir_option[rev_dir[door]])
+        if ((back = world[other_room].dir_option[rev_dir[door]]))
           if (back->to_room == ch->in_room)
           {
             SET_BIT(back->exit_info, EX_CLOSED);
@@ -353,6 +355,7 @@ void do_close(struct char_data *ch, char *argument, int cmd)
                 EXIT(ch, door)->to_room);
           }             
     }
+  }
 }
 
 
@@ -406,7 +409,7 @@ void do_lock(struct char_data *ch, char *argument, int cmd)
       send_to_char("*Cluck*\n\r", ch);
       act("$n locks $p - 'cluck', it says.", FALSE, ch, obj, 0, TO_ROOM);
     }
-  else if ((door = find_door(ch, type, dir)) >= 0)
+  else if ((door = find_door(ch, type, dir)) >= 0) {
 
     /* a door, perhaps */
 
@@ -431,10 +434,11 @@ void do_lock(struct char_data *ch, char *argument, int cmd)
       send_to_char("*Click*\n\r", ch);
       /* now for locking the other side, too */
       if ((other_room = EXIT(ch, door)->to_room) != NOWHERE)
-        if (back = world[other_room].dir_option[rev_dir[door]])
+        if ((back = world[other_room].dir_option[rev_dir[door]]))
           if (back->to_room == ch->in_room)
             SET_BIT(back->exit_info, EX_LOCKED);
     }
+  }
 }
 
 
@@ -471,7 +475,7 @@ void do_unlock(struct char_data *ch, char *argument, int cmd)
       send_to_char("*Click*\n\r", ch);
       act("$n unlocks $p.", FALSE, ch, obj, 0, TO_ROOM);
     }
-  else if ((door = find_door(ch, type, dir)) >= 0)
+  else if ((door = find_door(ch, type, dir)) >= 0) {
     if (!IS_SET(EXIT(ch, door)->exit_info, EX_ISDOOR))
       send_to_char("That's absurd.\n\r", ch);
     else if (!IS_SET(EXIT(ch, door)->exit_info, EX_CLOSED))
@@ -493,10 +497,11 @@ void do_unlock(struct char_data *ch, char *argument, int cmd)
       send_to_char("*click*\n\r", ch);
       /* now for unlocking the other side, too */
       if ((other_room = EXIT(ch, door)->to_room) != NOWHERE)
-        if (back = world[other_room].dir_option[rev_dir[door]])
+        if ((back = world[other_room].dir_option[rev_dir[door]]))
           if (back->to_room == ch->in_room)
             REMOVE_BIT(back->exit_info, EX_LOCKED);
     }
+  }
 }
 
 
@@ -543,7 +548,7 @@ void do_pick(struct char_data *ch, char *argument, int cmd)
       send_to_char("*Click*\n\r", ch);
       act("$n fiddles with $p.", FALSE, ch, obj, 0, TO_ROOM);
     }
-  else if ((door = find_door(ch, type, dir)) >= 0)
+  else if ((door = find_door(ch, type, dir)) >= 0) {
     if (!IS_SET(EXIT(ch, door)->exit_info, EX_ISDOOR))
       send_to_char("That's absurd.\n\r", ch);
     else if (!IS_SET(EXIT(ch, door)->exit_info, EX_CLOSED))
@@ -564,11 +569,12 @@ void do_pick(struct char_data *ch, char *argument, int cmd)
       send_to_char("The lock quickly yields to your skills.\n\r", ch);
       /* now for unlocking the other side, too */
       if ((other_room = EXIT(ch, door)->to_room) != NOWHERE)
-        if (back = world[other_room].dir_option[rev_dir[door]])
+        if ((back = world[other_room].dir_option[rev_dir[door]]))
           if (back->to_room == ch->in_room)
             REMOVE_BIT(back->exit_info, EX_LOCKED);
       WAIT_STATE(ch, PULSE_VIOLENCE);
     }
+  }
 }
 
 

@@ -172,9 +172,9 @@ void do_at(struct char_data *ch, char *argument, int cmd)
         send_to_char("No room exists with that number.\n\r", ch);
         return;
       }
-  } else if (target_mob = get_char_vis(ch, loc_str))
+  } else if ((target_mob = get_char_vis(ch, loc_str)))
     location = target_mob->in_room;
-  else if (target_obj = get_obj_vis(ch, loc_str))
+  else if ((target_obj = get_obj_vis(ch, loc_str)))
     if (target_obj->in_room != NOWHERE)
       location = target_obj->in_room;
     else {
@@ -241,9 +241,9 @@ void do_goto(struct char_data *ch, char *argument, int cmd)
         send_to_char("No room exists with that number.\n\r", ch);
         return;
     }
-  } else if (target_mob = get_char_vis(ch, buf))
+  } else if ((target_mob = get_char_vis(ch, buf)))
     location = target_mob->in_room;
-  else if (target_obj = get_obj_vis(ch, buf))
+  else if ((target_obj = get_obj_vis(ch, buf)))
     if (target_obj->in_room != NOWHERE)
       location = target_obj->in_room;
     else {
@@ -334,7 +334,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
       strcpy(buf,"Special procedure : ");
       strcat(buf,(rm->funct) ? "Exists\n\r" : "No\n\r");
       send_to_char(buf,ch);
-      sprintf(buf,"Room flags (%d): ",(long) rm->room_flags);
+      sprintf(buf,"Room flags (%ld): ",(long) rm->room_flags);
       send_to_char(buf,ch);
       sprintbit((long) rm->room_flags,room_bits,buf);
       strcat(buf,"\n\r");
@@ -415,7 +415,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
       send_to_char(buf, ch);
       for (i=0;i<MAX_OBJ_AFFECT;++i) {
         sprinttype(j->affected[i].location,apply_types,buf2);
-        sprintf(buf,"Affects: %s by %d\n\r",buf2,j->affected[i].modifier);
+        sprintf(buf,"Affects: %s by %ld\n\r",buf2,j->affected[i].modifier);
         send_to_char(buf, ch);      
       }
       return;
@@ -491,7 +491,7 @@ void do_stat(struct char_data *ch, char *argument, int cmd)
         strcpy(buf,"Special: ");
         strcat(buf,(mob_index[k->nr].func ? "Exists\n\r" : "None\n\r"));
         send_to_char(buf, ch);
-        sprintf(buf, "NPC Bare Hand Damage %dd%d.\n\r",
+        sprintf(buf, "NPC Bare Hand Damage %ldd%ld.\n\r",
           k->specials.damnodice, k->specials.damsizedice);
         send_to_char(buf, ch);
       } else {
@@ -890,7 +890,7 @@ void do_purge(struct char_data *ch, char *argument, int cmd)
     return;
   }
   if (*name) {
-    if (vict = get_char_room_vis(ch, name)) {
+    if ((vict = get_char_room_vis(ch, name))) {
       if(!IS_NPC(vict)){
         if(GET_LEVEL(ch) < GET_LEVEL(vict)){
           sprintf(buf,"%s tried to purge you.\n\r",ch->player.name);
@@ -904,7 +904,7 @@ void do_purge(struct char_data *ch, char *argument, int cmd)
       if (IS_NPC(vict)) {
         extract_char(vict);
       }
-    } else if(obj=get_obj_in_list_vis(ch,name,world[ch->in_room].contents)) {
+    } else if((obj=get_obj_in_list_vis(ch,name,world[ch->in_room].contents))) {
       act("$n destroys $p.", FALSE, ch, obj, 0, TO_ROOM);
       extract_obj(obj);
     } else {
@@ -1506,7 +1506,7 @@ void do_sys(struct char_data *ch, char *argument, int cmd)
   send_to_char(buffer,ch);
   sprintf(buffer,"%d drops.\n\r",droptotal);
   send_to_char(buffer,ch);
-  sprintf(buffer,"Total output = %d bytes (%d Bps)\n\r",
+  sprintf(buffer,"Total output = %d bytes (%ld Bps)\n\r",
     grand_total,grand_total/(time(0)-reboottime));
   send_to_char(buffer,ch);
 }
@@ -1708,7 +1708,7 @@ void do_data(struct char_data *ch, char *argument, int cmd)
   if(*buf == 'a'){
     for (d = descriptor_list; d; d = d->next) {
      if((p=d->character)&&(CAN_SEE(ch,p))){
-       sprintf(buf,"%-14s|%7d%7d%7d%|%5d%5d%5d%5d%5d|%4d%4d\n\r",
+       sprintf(buf,"%-14s|%7d%7d%7d|%5d%5d%5d%5d%5d|%4d%4d\n\r",
          GET_NAME(p),GET_MAX_HIT(p),GET_MAX_MANA(p),GET_MAX_MOVE(p),
          GET_STR(p),GET_INT(p),GET_WIS(p),GET_DEX(p),GET_CON(p),
          GET_HITROLL(p),GET_DAMROLL(p));

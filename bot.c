@@ -235,8 +235,8 @@ int bot(struct char_data *ch, int cmd, char *arg)
       do_drop(ch,"all",0);
       break;
     case 'E':
-      if(s=ch->player.title){
-        if(p=(char *)strchr(s,'#')){
+      if((s=ch->player.title)){
+        if((p=(char *)strchr(s,'#'))){
           strcpy(buf,s);
           s=buf;
           p=(char *)strchr(s,'#');

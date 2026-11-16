@@ -268,7 +268,7 @@ void make_corpse(struct char_data *ch)
   corpse->obj_flags.timer = MAX_PC_CORPSE_TIME;
 
  for (i=0; i<MAX_WEAR; i++)
-  if (xo=ch->equipment[i]){
+  if ((xo=ch->equipment[i])){
    obj_to_obj(unequip_char(ch, i), corpse);
    if(IS_SET(xo->obj_flags.extra_flags,ITEM_POOF)){
      SET_BIT(xo->obj_flags.extra_flags,ITEM_POOFSOON);
@@ -676,7 +676,7 @@ void damage(struct char_data *ch, struct char_data *victim,
   if((attacktype < MAXSPELL) || (attacktype >= SPELL_MAGIC_MISSILE_WPN)){
     if(GET_INT(ch) > 75)
       dam=dam+(dam*(GET_INT(ch)-75))/50;
-    if(k=victim->specials.magres){
+    if((k=victim->specials.magres)){
       if(k > 100)
         k=100;
       if(dam < 1000000){
@@ -766,7 +766,7 @@ void damage(struct char_data *ch, struct char_data *victim,
     act("You wish that your wounds would stop BLEEDING that much!",
       FALSE,victim,0,0,TO_CHAR);
    if(GET_HIT(victim) < (max_hit/5))
-    if(IS_NPC(victim))
+    if(IS_NPC(victim)) {
      if(IS_SET(victim->specials.act, ACT_WIMPY)){
        if(GET_POS(victim) == POSITION_SITTING)
         do_stand(victim, "", 0);
@@ -783,6 +783,7 @@ void damage(struct char_data *ch, struct char_data *victim,
           break;
         }
      }
+    }
    break;  
  }
  if(!IS_NPC(victim) && !(victim->desc)) {
@@ -832,7 +833,7 @@ void damage(struct char_data *ch, struct char_data *victim,
   if(lootflag){
     struct obj_data *o;
 
-    if(o = get_obj_in_list_vis(ch,"corpse",world[ch->in_room].contents))
+    if((o = get_obj_in_list_vis(ch,"corpse",world[ch->in_room].contents)))
       do_get(ch,"all corpse",0);
   }
  }

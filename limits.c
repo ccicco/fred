@@ -249,7 +249,7 @@ void gain_condition(struct char_data *ch,int condition,int value)
 
 void check_idling(struct char_data *ch)
 {
-  if (++(ch->specials.timer) > 8)
+  if (++(ch->specials.timer) > 8) {
     if (ch->specials.was_in_room == NOWHERE && ch->in_room != NOWHERE) {
       ch->specials.was_in_room = ch->in_room;
       if (ch->specials.fighting) {
@@ -265,6 +265,7 @@ void check_idling(struct char_data *ch)
         close_socket(ch->desc);
       do_rent(ch,0,0);
     }
+  }
 }
 
 /* Update both PC's & NPC's and objects*/
@@ -337,7 +338,7 @@ void point_update( void )
        --j->obj_flags.timer;
       if(j->obj_flags.timer <= 0){
         if(GET_ITEM_TYPE(j) == ITEM_BOMB) {
-          if(i=j->carried_by){
+          if((i=j->carried_by)){
             act("A bomb in your inventory explodes, OUCH!!",
               FALSE,i,j,0,TO_CHAR);
             act("A bomb carried by $n EXPLODES, causing bodily harm!!",

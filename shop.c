@@ -1,3 +1,4 @@
+#include <ctype.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -103,7 +104,7 @@ int is_ok(struct char_data *keeper, struct char_data *ch, int shop_nr)
     do_say(keeper,
     "Come back later!",17);
     return(FALSE);
-  } else if (shop_index[shop_nr].close1<time_info.hours)
+  } else if (shop_index[shop_nr].close1<time_info.hours) {
     if (shop_index[shop_nr].open2>time_info.hours){
       do_say(keeper,
       "Sorry, we have closed, but come back later.",17);
@@ -113,6 +114,7 @@ int is_ok(struct char_data *keeper, struct char_data *ch, int shop_nr)
       "Sorry, come back tomorrow.",17);
       return(FALSE);
     };
+  }
 
   if(!(CAN_SEE(keeper,ch))) {
     do_say(keeper, "I don't trade with someone I can't see!",17);
@@ -564,7 +566,7 @@ void object_identify_to_char(struct char_data *ch, struct obj_data *j)
     if(!j->affected[i].location)
       continue;
     sprinttype(j->affected[i].location,apply_types,buf2);
-    sprintf(buf,"  Affects: %s by %d\n\r",buf2,j->affected[i].modifier);
+    sprintf(buf,"  Affects: %s by %ld\n\r",buf2,j->affected[i].modifier);
     send_to_char(buf, ch);      
   }
 }

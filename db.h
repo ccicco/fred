@@ -119,7 +119,7 @@ struct index_data
   int number;     /* number of existing units of this mob/obj  */
   int total;
   char *name;
-  int (*func)();  /* special procedure for this mob/obj       */
+  special_f *func;  /* special procedure for this mob/obj       */
 };
 
 struct player_index_element

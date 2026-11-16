@@ -545,7 +545,7 @@ void shoot(struct char_data *ch, struct char_data *victim, int type)
   WAIT_STATE(victim, PULSE_VIOLENCE*2);
 }
 
-void do_attack(struct char_data *ch, struct char_data *victim, int type)
+void do_attack(struct char_data *ch, char *arg, int type)
 {
   struct char_data *tch, *ttch;
   int percent, x;

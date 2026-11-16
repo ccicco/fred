@@ -553,19 +553,19 @@ void do_cast(struct char_data *ch, char *argument, int cmd)
     argument = one_argument(argument, name);
     if (*name) {
      if (IS_SET(spell_info[spl].targets, TAR_CHAR_ROOM))
-      if (tar_char = get_char_room_vis(ch, name))
+      if ((tar_char = get_char_room_vis(ch, name)))
        target_ok = TRUE;
      if (!target_ok && IS_SET(spell_info[spl].targets, TAR_CHAR_WORLD))
-      if (tar_char = (struct char_data *) get_ranchar_vis(ch, name))
+      if ((tar_char = (struct char_data *) get_ranchar_vis(ch, name)))
        target_ok = TRUE;
      if (!target_ok && IS_SET(spell_info[spl].targets, TAR_OBJ_INV))
-      if (tar_obj = get_obj_in_list_vis(ch, name, ch->carrying))
+      if ((tar_obj = get_obj_in_list_vis(ch, name, ch->carrying)))
        target_ok = TRUE;
      if (!target_ok && IS_SET(spell_info[spl].targets, TAR_OBJ_ROOM))
-      if (tar_obj = get_obj_in_list_vis(ch, name, world[ch->in_room].contents))
+      if ((tar_obj = get_obj_in_list_vis(ch, name, world[ch->in_room].contents)))
        target_ok = TRUE;
      if (!target_ok && IS_SET(spell_info[spl].targets, TAR_OBJ_WORLD))
-      if (tar_obj = get_obj_vis(ch, name))
+      if ((tar_obj = get_obj_vis(ch, name)))
        target_ok = TRUE;
      if (!target_ok && IS_SET(spell_info[spl].targets, TAR_OBJ_EQUIP)) {
       for(i=0; i<MAX_WEAR && !target_ok; i++)
