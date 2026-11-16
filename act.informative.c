@@ -1623,6 +1623,15 @@ void do_notell(struct char_data *ch, char *argument, int cmd)
       SET_BIT(ch->specials.act, PLR_AUTOLOOT);
     }
     return;
+    case 299:
+    if (IS_SET(ch->specials.act, PLR_AUTOASSIST)) {
+      send_to_char("Autoassist is off.\n\r", ch);
+      REMOVE_BIT(ch->specials.act, PLR_AUTOASSIST);
+    } else {
+      send_to_char("Autoassist is on.\n\r", ch);
+      SET_BIT(ch->specials.act, PLR_AUTOASSIST);
+    }
+    return;
   }
 }
 void do_report(struct char_data *ch, char *argument, int cmd)

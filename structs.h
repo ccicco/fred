@@ -447,6 +447,7 @@ struct room_data
 #define PLR_AUTOEXIT  65536
 #define PLR_AUTOLOOT 131072
 #define PLR_REPEAT	1 << 18 /* SLUG_CHANGE 11-9-96 echo say/tell/shouts */
+#define PLR_AUTOASSIST	1 << 19 /* auto-join groupmate fights */
 
 
 struct time_info_data {

@@ -509,6 +509,7 @@ char *command[]=
   "areas",
   "finger",
   "appraise",
+  "autoassist",
   "\n"
 };
 
@@ -1149,6 +1150,7 @@ void assign_command_pointers ( void )
   COMMANDO(296,POSITION_DEAD,do_areas,1);
   COMMANDO(297,POSITION_DEAD,do_finger,1);
   COMMANDO(298,POSITION_RESTING,do_not_here,1);
+  COMMANDO(299,POSITION_DEAD,do_notell,0);
 }
 int find_name(char *name)
 {

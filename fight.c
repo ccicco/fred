@@ -932,9 +932,44 @@ void hit(struct char_data *ch, struct char_data *victim, int type)
 }
 
 /* control the fights going on */
+/* autoassist helper: k joins pal's fight if flagged, grouped, able */
+static void autoassist_join(struct char_data *k, struct char_data *pal)
+{
+ if (k == pal || IS_NPC(k) || k->specials.fighting)
+  return;
+ if (!IS_AFFECTED(k, AFF_GROUP))
+  return;
+ if (!IS_SET(k->specials.act, PLR_AUTOASSIST))
+  return;
+ if (k->in_room != pal->in_room)
+  return;
+ if (GET_POS(k) < POSITION_STANDING)
+  return;
+ if (!pal->specials.fighting || !CAN_SEE(k, pal->specials.fighting))
+  return;
+ act("$n joins $N's fight!", TRUE, k, 0, pal, TO_ROOM);
+ hit(k, pal->specials.fighting, TYPE_UNDEFINED);
+}
+
 void perform_violence(void)
 {
  struct char_data *ch;
+ struct char_data *leader, *k;
+ struct follow_type *f;
+
+ /* autoassist pass first: flagged group members join a groupmate's
+    fight this round (set_fighting inserts at combat_list head, so
+    newly joined helpers are processed by the violence loop below) */
+ for (ch = combat_list; ch; ch = ch->next_fighting) {
+  if (IS_NPC(ch) || !IS_AFFECTED(ch, AFF_GROUP) || !ch->specials.fighting)
+   continue;
+  leader = (ch->master) ? ch->master : ch;
+  autoassist_join(leader, ch);
+  for (f = leader->followers; f; f = f->next) {
+   k = f->follower;
+   autoassist_join(k, ch);
+  }
+ }
 
  for (ch = combat_list; ch; ch=combat_next_dude) {
   combat_next_dude = ch->next_fighting;
