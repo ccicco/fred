@@ -121,7 +121,7 @@ void mobile_activity(void)
      if(IS_SET(ch->specials.act, ACT_SMART)){
        if((vict=ch->specials.fighting)&&IS_NPC(vict)){
          if(GET_HIT(vict) > GET_HIT(ch))
-           do_flee(ch);
+           do_flee(ch, "", 0);
        } else {
          vict=0;
          minhp=0;  /* minhp is actually max level now */

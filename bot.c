@@ -363,7 +363,7 @@ int mudhead(struct char_data *ch, int cmd, char *arg)
     return FALSE;
   t = time(0);
   if((t - lt) < 5)
-    return;
+    return FALSE;
   switch (n=mudhead_path[index]) {
     case '0':
     case '1':

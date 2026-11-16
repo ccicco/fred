@@ -467,6 +467,7 @@ struct poker_data {
 
 #define POKERMAX 10
 struct poker_data pok[POKERMAX];
+int nextbettor(struct poker_data pok[], int totbet, int whobets, int nbets);
 
 char pokerdeck[52];
 
@@ -593,11 +594,11 @@ int poker(struct char_data *ch, int cmd, char *arg)
         if(!(state & 1))
           act("$n says 'Place your bets now for the next hand.'",
             TRUE,ch,0,0,TO_ROOM);
-        ++state; return;
+        ++state; return FALSE;
       case  4:
         if(!nbets){    /* Nobody playing, go back to beginning. */
           state=0;
-          return;
+          return FALSE;
         }
         if(nbets==1){
           act("$n says 'Still waiting for some competition.'",

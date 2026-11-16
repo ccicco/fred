@@ -132,7 +132,7 @@ int trade_with(struct obj_data *item, int shop_nr)
 
   if(item->obj_flags.cost < 1)
      return(FALSE);
-  if(shop_index[shop_nr].type[0] == -2)
+  if(shop_index[shop_nr].type[0] == (byte)-2)
     return TRUE;
   for(counter=0;counter<MAX_TRADE;counter++)
     if(shop_index[shop_nr].type[counter]==item->obj_flags.type_flag)

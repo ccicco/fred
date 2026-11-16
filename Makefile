@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS = -g -DIMO=1000 -DSYSV -fno-builtin-log -include unistd.h -Wno-error=implicit-function-declaration -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types
+CFLAGS = -g -DIMO=1000 -DSYSV -fno-builtin-log -include unistd.h -include proto.h -Wno-error=implicit-function-declaration -Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types
 CLIBS = -lcrypt
 HEADERFILES = structs.h utils.h comm.h interpreter.h db.h
 dms : comm.o act.comm.o act.informative.o act.movement.o act.obj1.o \

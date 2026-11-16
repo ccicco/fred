@@ -33,10 +33,6 @@ extern char *dirletters;
 
 /* extern procedures */
 
-struct char_data *rand_player_room(struct char_data *ch);
-struct char_data *rand_player_world(struct char_data *ch);
-struct char_data *rand_mob_room(struct char_data *ch);
-struct char_data *rand_char_room(struct char_data *ch);
 struct obj_data *rand_object();
 char *rand_playername_file();
 char *rand_obscenity();

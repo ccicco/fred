@@ -9,6 +9,7 @@
 #include <ctype.h>
 #include <time.h>
 #include <stdlib.h>
+#include <strings.h>
 
 #include "structs.h"
 #include "utils.h"
@@ -339,8 +340,8 @@ void build_player_index(void)
       player_table[nr].nr = nr;
       CREATE(player_table[nr].name, char,
          strlen(dummy.name) + 1);
-      for (i = 0; *(player_table[nr].name + i) = 
-         LOWER(*(dummy.name + i)); i++);
+      for (i = 0; (*(player_table[nr].name + i) =
+         LOWER(*(dummy.name + i))); i++);
     }
   }
   fclose(fl);
@@ -409,7 +410,7 @@ void boot_world(void)
   do {
     fscanf(fl, " #%d\n", &virtual_nr);
     temp = fread_string(fl);
-    if (flag = (*temp != '$')) {
+    if ((flag = (*temp != '$'))) {
       allocate_room(room_nr);
       world[room_nr].number = virtual_nr;
       world[room_nr].name = temp;
@@ -616,7 +617,7 @@ void boot_zones(void)
     cmd_no = 0;
 
     for(expand = 1;;){
-      if (expand)
+      if (expand) {
         if (!cmd_no)
           CREATE(zone_table[zon].cmd, struct reset_com, 1);
         else
@@ -627,6 +628,7 @@ void boot_zones(void)
             perror("reset command load");
             exit(0);
           }
+      }
 
       expand = 1;
 
@@ -677,7 +679,7 @@ void boot_zones(void)
 struct char_data *read_mobile(int nr, int type)
 {
   int i, skill_nr;
-  long tmp, tmp2, tmp3;
+  int tmp, tmp2, tmp3;
   struct char_data *mob;
   char chk[10], buf[KBYTE];
   char letter;
@@ -735,7 +737,7 @@ struct char_data *read_mobile(int nr, int type)
   fscanf(mob_f, " %c \n", &letter);
 
   if (letter == 'S') {
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     GET_LEVEL(mob) = tmp;
     mob->specials.magres = tmp/10;
     mob->abilities.str   = 8+tmp+number(tmp,4+tmp);
@@ -744,30 +746,30 @@ struct char_data *read_mobile(int nr, int type)
     mob->abilities.dex   = 8+tmp+number(tmp,4+tmp);
     mob->abilities.con   = 8+tmp+number(tmp,4+tmp);
   } else {
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     mob->abilities.str = tmp;
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     mob->abilities.intel = tmp; 
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     mob->abilities.wis = tmp;
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     mob->abilities.dex = tmp;
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     mob->abilities.con = tmp;
-    fscanf(mob_f, " %D \n", &tmp);
+    fscanf(mob_f, " %d \n", &tmp);
     mob->specials.magres = tmp;
-    fscanf(mob_f, " %D ", &tmp);
+    fscanf(mob_f, " %d ", &tmp);
     GET_LEVEL(mob) = tmp;
   }
-  fscanf(mob_f, " %D ", &tmp);
+  fscanf(mob_f, " %d ", &tmp);
   mob->points.hitroll = tmp;
-  fscanf(mob_f, " %D ", &tmp);
+  fscanf(mob_f, " %d ", &tmp);
   mob->points.armor = tmp+number(1,tmp>>1);
   mob->specials.xxx = 0;
-  fscanf(mob_f, " %Dd%D+%D ", &tmp, &tmp2, &tmp3);
+  fscanf(mob_f, " %dd%d+%d ", &tmp, &tmp2, &tmp3);
   mob->points.max_hit = dice(tmp, tmp2)+tmp3;
   mob->points.hit = mob->points.max_hit;
-  fscanf(mob_f, " %Dd%D+%D \n", &tmp, &tmp2, &tmp3);
+  fscanf(mob_f, " %dd%d+%d \n", &tmp, &tmp2, &tmp3);
   mob->points.damroll = factor*tmp3;
   mob->specials.damnodice = tmp;
   mob->specials.damsizedice = tmp2;
@@ -775,15 +777,15 @@ struct char_data *read_mobile(int nr, int type)
   mob->points.max_mana = 10;
   mob->points.move = 50;
   mob->points.max_move = 50;
-  fscanf(mob_f, " %D ", &tmp);
+  fscanf(mob_f, " %d ", &tmp);
   mob->points.gold = tmp;
-  fscanf(mob_f, " %D \n", &tmp);
+  fscanf(mob_f, " %d \n", &tmp);
   GET_EXP(mob) = factor*tmp;
-  fscanf(mob_f, " %D ", &tmp);
+  fscanf(mob_f, " %d ", &tmp);
   mob->specials.position = tmp;
-  fscanf(mob_f, " %D ", &tmp);
+  fscanf(mob_f, " %d ", &tmp);
   mob->specials.default_pos = tmp;
-  fscanf(mob_f, " %D \n", &tmp);
+  fscanf(mob_f, " %d \n", &tmp);
   mob->specials.it  = 0;
   GET_SPELL_LEV_BONUS(mob) = 0;
   mob->player.sex = tmp;
@@ -1277,8 +1279,8 @@ int create_entry(char *name)
     }
   CREATE(player_table[top_of_p_table].name, char , strlen(name) + 1);
   /* copy lowercase equivalent of name to table field */
-  for (i = 0; *(player_table[top_of_p_table].name + i) = 
-      LOWER(*(name + i)); i++);
+  for (i = 0; (*(player_table[top_of_p_table].name + i) =
+      LOWER(*(name + i))); i++);
   player_table[top_of_p_table].nr = top_of_p_table;
   return (top_of_p_table);
 }
@@ -1293,7 +1295,7 @@ void save_char(struct char_data *ch, sh_int load_room)
 
   if (IS_NPC(ch) || !ch->desc)
     return;
-  if (expand = (ch->desc->pos > top_of_p_file)) {
+  if ((expand = (ch->desc->pos > top_of_p_file))) {
     strcpy(mode, "a");
     top_of_p_file++;
   } else
@@ -1347,7 +1349,7 @@ char *fread_string(FILE *fl)
       strcat(buf, tmp);
     for (point = buf + strlen(buf) - 2; point >= buf && isspace(*point);
       point--);    
-    if (flag = (*point == '~'))
+    if ((flag = (*point == '~')))
       if (*(buf + strlen(buf) - 3) == '\n') {
         *(buf + strlen(buf) - 2) = '\r';
         *(buf + strlen(buf) - 1) = '\0';
@@ -1644,7 +1646,7 @@ void stash_char(struct char_data *ch, char *filename)
     return;
   }
   for(i=0;i<MAX_WEAR;++i)
-    if(p=ch->equipment[i]){
+    if((p=ch->equipment[i])){
       fprintf(fl,"%d",obj_index[p->item_number].virtual);
       fprintf(fl," %d",p->obj_flags.type_flag);
       fprintf(fl," %d",p->obj_flags.extra_flags);
@@ -1674,9 +1676,9 @@ void stash_contents(FILE *fl, struct obj_data *p, int lev)
       fprintf(fl," %d",p->obj_flags.value[j]);
     fprintf(fl," %d %d\n",p->obj_flags.rentlevel,p->oid);
   }
-  if(pc=p->contains)
+  if((pc=p->contains))
     stash_contents(fl,pc,lev);
-  if(pc=p->next_content)
+  if((pc=p->next_content))
     stash_contents(fl,pc,lev);
 }
 void unstash_char(struct char_data *ch, char *filename)
