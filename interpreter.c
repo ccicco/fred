@@ -1237,7 +1237,7 @@ void nanny(struct descriptor_data *d, char *arg)
      return;
     }
     /* Check if already playing */
-    if(!str_cmp(tmp_name,"Mel") && strncmp(d->host,"139.102",7)) {
+    if(!str_cmp(tmp_name,"Mel") && strncmp(d->host,"127.0.0",7)) {
      SEND_TO_Q("Uh, Mel doesn't play from that site.\n\r",d);
      SEND_TO_Q("Name: ", d);
      return;

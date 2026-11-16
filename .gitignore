@@ -8,3 +8,5 @@ DMS
 character
 next
 prompt_mode
+lib/players
+lib/stash/
